@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .header {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    form {
+      background-color: white;
+      padding: 15px;
+      border-radius: 5px;
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Created by Feysel</div>
+  <h2 style="text-align:center;">Student Registration Form</h2>
+  <form>
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="telegram">Telegram Account:</label>
+    <input type="text" id="telegram" name="telegram" required>
+
+    <label for="campus">Campus:</label>
+    <input type="text" id="campus" name="campus" required>
+
+    <label for="year">Year:</label>
+    <select id="year" name="year" required>
+      <option value="">Select your year</option>
+      <option>1st Year</option>
+      <option>2nd Year</option>
+      <option>3rd Year</option>
+      <option>4th Year</option>
+    </select>
+
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" required>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzH4MObg0HFzVZmJdpe0nSdhGTMRw6CvU",
+      authDomain: "webdevelopment-46bcf.firebaseapp.com",
+      databaseURL: "https://webdevelopment-46bcf-default-rtdb.firebaseio.com",
+      projectId: "webdevelopment-46bcf",
+      storageBucket: "webdevelopment-46bcf.firebasestorage.app",
+      messagingSenderId: "181019242197",
+      appId: "1:181019242197:web:672bbf9fbc99bae6d9fc5c",
+      measurementId: "G-XET2LTWV2Z"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    document.querySelector("form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const studentData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        telegram: document.getElementById("telegram").value,
+        campus: document.getElementById("campus").value,
+        year: document.getElementById("year").value,
+        department: document.getElementById("department").value
+      };
+
+      db.ref("students/").push(studentData)
+        .then(() => {
+          alert("Registration successful! We will notify you.");
+          e.target.reset();
+        })
+        .catch(error => {
+          alert("Registration failed: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
